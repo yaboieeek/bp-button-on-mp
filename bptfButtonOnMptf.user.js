@@ -86,7 +86,7 @@ const makeItemLink = () => {
 
     } catch (e) {
         addGoogle = true;
-        return 'https://google.com/search?q=' + itemTitleElement.innerText;
+        return 'https://google.com/search?q=' + itemTitleElement.innerText; //blame zeus
     }
 }
 
@@ -100,14 +100,16 @@ const createButtons = () => {
     autobotButton.innerText = 'Autobot.tf';
     autobotButton.target = '_blank';
     autobotButton.href = 'https://autobot.tf/items' + getItemSku();
+    target.append(spanContainer);
+    spanContainer.append(autobotButton);
 
+    if (/Wear|Tested|Scared|Factory New/.test(itemTitleElement.innerText)) return;
     MPButton.className = 'btn btn-success mt-1';
     MPButton.innerText = 'Backpack.tf';
     MPButton.target = '_blank';
+    spanContainer.prepend(MPButton);
 
-    target.append(spanContainer);
-    spanContainer.append(MPButton, autobotButton);
-
+    MPButton.href = makeItemLink(); 
     if (addGoogle) {
         MPButton.className = 'btn btn-warning mt-1';
         MPButton.innerText = 'View on Google';
@@ -115,8 +117,7 @@ const createButtons = () => {
     spanContainer.className = 'd-flex';
     spanContainer.style.gap = '1em';
 
-    if (/Wear|Tested|Scared|Factory New/.test(itemTitleElement.innerText)) return;
-    MPButton.href = makeItemLink(); ///this at last cus this may break it blame zeus tho
+
  };
 
 createButtons();
