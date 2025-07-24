@@ -1,11 +1,13 @@
 // ==UserScript==
 // @name         Backpack.tf link on marketplace.tf
 // @namespace    https://steamcommunity.com/profiles/76561198967088046
-// @version      1.0.0
+// @version      1.0.1
 // @description  adds backpack.tf link on marketplace.tf
 // @author       eeek
 // @match        https://marketplace.tf/items/tf2/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=marketplace.tf
+// @updateURL https://github.com/yaboieeek/bp-button-on-mp/raw/refs/heads/main/bptfButtonOnMptf.user.js    
+// @downloadURL https://github.com/yaboieeek/bp-button-on-mp/raw/refs/heads/main/bptfButtonOnMptf.user.js
 // @grant        none
 // ==/UserScript==
 
@@ -22,7 +24,8 @@ const qualityColor = {
     strange: 'rgb(207, 106, 50)',
     unusual: 'rgb(134, 80, 172)',
     genuine: 'rgb(77, 116, 85)',
-    vintage: 'rgb(71, 98, 145)'
+    vintage: 'rgb(71, 98, 145)',
+    collector: 'rgb(192, 57, 43)'
 };
 
 const getQuality = () => {
@@ -33,6 +36,7 @@ const getQuality = () => {
         case qualityColor.unusual: return 'Unusual';
         case qualityColor.genuine: return 'Genuine';
         case qualityColor.vintage: return 'Vintage';
+        case qualityColor.collector: return "Collector's";
         default: return color;
     }
 }
@@ -86,7 +90,7 @@ const makeItemLink = () => {
 
     } catch (e) {
         addGoogle = true;
-        return 'https://google.com/search?q=' + itemTitleElement.innerText; //blame zeus
+        return 'https://google.com/search?q=' + itemTitleElement.innerText;
     }
 }
 
@@ -96,7 +100,7 @@ const createButtons = () => {
     const spanContainer = document.createElement('span');
     const target = document.querySelector('.auction-options');
 
-    autobotButton.className = 'btn btn-danger mt-1';
+    autobotButton.className = 'btn btn-danger';
     autobotButton.innerText = 'Autobot.tf';
     autobotButton.target = '_blank';
     autobotButton.href = 'https://autobot.tf/items' + getItemSku();
@@ -104,18 +108,18 @@ const createButtons = () => {
     spanContainer.append(autobotButton);
 
     if (/Wear|Tested|Scared|Factory New/.test(itemTitleElement.innerText)) return;
-    MPButton.className = 'btn btn-success mt-1';
+    MPButton.className = 'btn btn-success';
     MPButton.innerText = 'Backpack.tf';
     MPButton.target = '_blank';
     spanContainer.prepend(MPButton);
 
-    MPButton.href = makeItemLink(); 
+    MPButton.href = makeItemLink(); //blame zeus
     if (addGoogle) {
         MPButton.className = 'btn btn-warning mt-1';
         MPButton.innerText = 'View on Google';
     }
-    spanContainer.className = 'd-flex';
-    spanContainer.style.gap = '1em';
+    spanContainer.className = 'd-flex mt-2';
+    spanContainer.style.gap = '0.5em';
 
 
  };
