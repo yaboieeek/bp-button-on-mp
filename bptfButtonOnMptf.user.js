@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Backpack.tf link on marketplace.tf
 // @namespace    https://steamcommunity.com/profiles/76561198967088046
-// @version      1.0.1
+// @version      1.0.2
 // @description  adds backpack.tf link on marketplace.tf
 // @author       eeek
 // @match        https://marketplace.tf/items/tf2/*
@@ -115,7 +115,7 @@ const createButtons = () => {
 
     MPButton.href = makeItemLink(); //blame zeus
     if (addGoogle) {
-        MPButton.className = 'btn btn-warning mt-1';
+        MPButton.className = 'btn btn-warning';
         MPButton.innerText = 'View on Google';
     }
     spanContainer.className = 'd-flex mt-2';
