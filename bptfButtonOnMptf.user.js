@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Backpack.tf link on marketplace.tf
 // @namespace    https://steamcommunity.com/profiles/76561198967088046
-// @version      2.0
+// @version      2.1
 // @description  adds backpack.tf link on marketplace.tf
 // @author       eeek
 // @match        https://marketplace.tf/items/tf2/*
@@ -44,7 +44,7 @@ const getItemModelFromMarketplaceURL = (rawURL) => {
     return itemModel;
 }
 
-const getItemSku = () => window.location.pathname.replace('items/tf2/', '');
+const getItemSku = () => window.location.pathname.replace('items/tf2/', ''); //for autobot
 
 const getSpecialItemIndex = () => window.location.pathname.replace('items/tf2/', '').split(';').find(index => index.includes('td-')).replace('td-', ''); //for unusualifiers/killstreak kits
 
@@ -54,7 +54,7 @@ const buildOldLink = (itemModel) => {
     const itemName = itemModel.item;
     console.log(itemModel);
 
-    let isSpecialItem = ['Unusualifier', 'Kit', 'Fabricator'].includes(itemName);
+    let isSpecialItem = ['Unusualifier', 'Kit', 'Fabricator'].includes(itemName) || itemName.includes('Crate') || itemName.includes('Case');
 
     const baseLink = `https://backpack.tf/stats`;
     const quality = qualities[itemModel.quality];
@@ -67,7 +67,9 @@ const buildOldLink = (itemModel) => {
 
     if (isSpecialItem) {
         if (itemName === 'Kit') return processKillstreakKitLink([baseLink, quality, itemName, 'Tradable', 'Non-Craftable'], itemModel.killstreakTier).join('/');
-        if (itemName === 'Unusualifier') return [baseLink, quality, itemName, 'Tradable', 'Non-Craftable', getSpecialItemIndex()].join('/')
+        if ((itemName === 'Unusualifier')) return [baseLink, quality, itemName, 'Tradable', 'Non-Craftable', getSpecialItemIndex()].join('/')
+        if (itemName.includes('Crate')) return [baseLink, quality, itemName, 'Tradable', 'Non-Craftable'].join('/');
+        if (itemName.includes('Case')) return [baseLink, quality, itemName, 'Tradable', 'Craftable'].join('/');
         return [baseLink, quality, itemName, 'Tradable', 'Craftable', itemPriceIndex].join('/')
     };
 
